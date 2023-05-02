@@ -4,5 +4,6 @@ resource "aws_instance" "app_server" {
 
   tags = {
     Name = "TF21DAYS-APP"
+    Owner="Sanjeev"
   }
 }
