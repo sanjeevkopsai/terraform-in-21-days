@@ -52,7 +52,7 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name = var.env_code
+    Name = "${var.env_code}-public"
   }
 }
 
