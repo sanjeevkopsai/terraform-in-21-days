@@ -2,7 +2,7 @@ resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
 
   tags = {
-    Name = "main"
+    Name = var.env_code
   }
 }
 
@@ -12,7 +12,7 @@ resource "aws_subnet" "public1" {
   availability_zone = "us-west-1a"
 
   tags = {
-    Name = "public1"
+    Name = "${var.env_code}-public1"
   }
 }
 
@@ -22,7 +22,7 @@ resource "aws_subnet" "public2" {
   availability_zone = "us-west-1c"
 
   tags = {
-    Name = "public2"
+    Name = "${var.env_code}-public2"
   }
 }
 
@@ -32,7 +32,7 @@ resource "aws_subnet" "private1" {
   availability_zone = "us-west-1a"
 
   tags = {
-    Name = "private1"
+    Name = "${var.env_code}-private1"
   }
 }
 
@@ -42,7 +42,7 @@ resource "aws_subnet" "private2" {
   availability_zone = "us-west-1c"
 
   tags = {
-    Name = "private2"
+    Name = "${var.env_code}.private2"
   }
 }
 
@@ -50,7 +50,7 @@ resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "main"
+    Name = var.env_code
   }
 }
 
@@ -63,7 +63,7 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name = "main"
+    Name = var.env_code
   }
 }
 
@@ -79,10 +79,18 @@ resource "aws_route_table_association" "public2" {
 
 resource "aws_eip" "nat1" {
   vpc = true
+
+  tags = {
+    Name = "${var.env_code}-nat1"
+  }
 }
 
 resource "aws_eip" "nat2" {
   vpc = true
+
+  tags = {
+    Name = "${var.env_code}-nat2"
+  }
 }
 
 resource "aws_nat_gateway" "main1" {
@@ -90,7 +98,7 @@ resource "aws_nat_gateway" "main1" {
   subnet_id     = aws_subnet.public1.id
 
   tags = {
-    Name = "main1"
+    Name = "${var.env_code}-main1"
   }
 
   # To ensure proper ordering, it is recommended to add an explicit dependency
@@ -103,7 +111,7 @@ resource "aws_nat_gateway" "main2" {
   subnet_id     = aws_subnet.public2.id
 
   tags = {
-    Name = "main2"
+    Name = "${var.env_code}-main2"
   }
 
   # To ensure proper ordering, it is recommended to add an explicit dependency
@@ -120,7 +128,7 @@ resource "aws_route_table" "private1" {
   }
 
   tags = {
-    Name = "private1"
+    Name = "${var.env_code}-private1"
   }
 }
 
@@ -133,7 +141,7 @@ resource "aws_route_table" "private2" {
   }
 
   tags = {
-    Name = "private2"
+    Name = "${var.env_code}-private2"
   }
 }
 
