@@ -70,7 +70,7 @@ resource "aws_eip" "nat" {
   vpc = true
 
   tags = {
-    Name = "${var.env_code}-nat{count.index +1}"
+    Name = "${var.env_code}-nat${count.index +1}"
   }
 }
 
@@ -81,7 +81,7 @@ resource "aws_nat_gateway" "main" {
   subnet_id     = aws_subnet.public[count.index].id
 
   tags = {
-    Name = "${var.env_code}-main{count.index +1}"
+    Name = "${var.env_code}-main${count.index +1}"
   }
 
   # To ensure proper ordering, it is recommended to add an explicit dependency
@@ -100,7 +100,7 @@ resource "aws_route_table" "private" {
   }
 
   tags = {
-    Name = "${var.env_code}-private{count.index +1}"
+    Name = "${var.env_code}-private${count.index +1}"
   }
 }
 
