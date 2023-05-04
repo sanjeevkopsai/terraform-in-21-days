@@ -31,7 +31,7 @@ resource "aws_subnet" "private" {
   availability_zone = local.availability_zones[count.index]
 
   tags = {
-    Name = "${var.env_code}-private{count.index+1}"
+    Name = "${var.env_code}-private${count.index+1}"
   }
 }
 
