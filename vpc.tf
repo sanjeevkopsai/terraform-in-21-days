@@ -1,5 +1,5 @@
 locals {
-  availability_zones = ["us-west-1a","us-west-1c"]
+  availability_zones = ["us-west-1a", "us-west-1c"]
 }
 
 resource "aws_vpc" "main" {
@@ -18,20 +18,20 @@ resource "aws_subnet" "public" {
   availability_zone = local.availability_zones[count.index]
 
   tags = {
-    Name = "${var.env_code}-public${count.index+1}"
+    Name = "${var.env_code}-public${count.index + 1}"
   }
 }
 
 
 resource "aws_subnet" "private" {
   count = length(var.private_cidr)
-  
+
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_cidr[count.index]
   availability_zone = local.availability_zones[count.index]
 
   tags = {
-    Name = "${var.env_code}-private${count.index+1}"
+    Name = "${var.env_code}-private${count.index + 1}"
   }
 }
 
@@ -70,7 +70,7 @@ resource "aws_eip" "nat" {
   vpc = true
 
   tags = {
-    Name = "${var.env_code}-nat${count.index +1}"
+    Name = "${var.env_code}-nat${count.index + 1}"
   }
 }
 
@@ -81,7 +81,7 @@ resource "aws_nat_gateway" "main" {
   subnet_id     = aws_subnet.public[count.index].id
 
   tags = {
-    Name = "${var.env_code}-main${count.index +1}"
+    Name = "${var.env_code}-main${count.index + 1}"
   }
 
   # To ensure proper ordering, it is recommended to add an explicit dependency
@@ -100,14 +100,14 @@ resource "aws_route_table" "private" {
   }
 
   tags = {
-    Name = "${var.env_code}-private${count.index +1}"
+    Name = "${var.env_code}-private${count.index + 1}"
   }
 }
 
 
 resource "aws_route_table_association" "private" {
   count = length(var.private_cidr)
-  
+
   subnet_id      = aws_subnet.private[count.index].id
   route_table_id = aws_route_table.private[count.index].id
 }
