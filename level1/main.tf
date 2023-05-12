@@ -1,5 +1,5 @@
-locals {
-  availability_zones = ["us-west-1a", "us-west-1c"]
+data "aws_availability_zones" "available" {
+  state = "available"
 }
 
 resource "aws_vpc" "main" {
@@ -15,7 +15,7 @@ resource "aws_subnet" "public" {
 
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.public_cidr[count.index]
-  availability_zone = local.availability_zones[count.index]
+  availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = {
     Name = "${var.env_code}-public${count.index + 1}"
@@ -28,7 +28,7 @@ resource "aws_subnet" "private" {
 
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_cidr[count.index]
-  availability_zone = local.availability_zones[count.index]
+  availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = {
     Name = "${var.env_code}-private${count.index + 1}"
