@@ -84,7 +84,7 @@ resource "aws_instance" "private" {
   key_name               = "sanjeevk-tf"
   vpc_security_group_ids = [aws_security_group.private.id]
   subnet_id              = data.terraform_remote_state.level1.outputs.private_subnet_id[count.index]
-  user_data                   = file("user-data.sh")
+  user_data              = file("user-data.sh")
 
   tags = {
     Name = "${var.env_code}-private"
@@ -105,10 +105,10 @@ resource "aws_security_group" "private" {
   }
 
   ingress {
-    description = "HTTP from load balancer"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
+    description     = "HTTP from load balancer"
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
     security_groups = [aws_security_group.load_balancer.id]
   }
 
