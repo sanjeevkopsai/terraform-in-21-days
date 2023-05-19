@@ -28,7 +28,7 @@ resource "aws_lb" "main" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.load_balancer.id]
-subnets            = var.public_subnet_id
+  subnets            = var.public_subnet_id
 
   tags = {
     Name = var.env_code
