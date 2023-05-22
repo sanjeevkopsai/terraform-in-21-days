@@ -59,8 +59,8 @@ resource "aws_lb_listener" "main" {
   load_balancer_arn = aws_lb.main.arn
   port              = "443"
   protocol          = "HTTPS"
-  certificate_arn   = aws_acm_certificate.main.arn 
-  ssl_policy        = "ELBSecurityPolicy-2016-08" 
+  certificate_arn   = aws_acm_certificate.main.arn
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
 
   default_action {
     type             = "forward"
@@ -74,14 +74,14 @@ data "aws_route53_zone" "main" {
 
 resource "aws_route53_record" "www" {
   zone_id = data.aws_route53_zone.main.zone_id
-  name = "www.${data.aws_route53_zone.main.name}"
-  type = "CNAME"
-  ttl  = "300"
+  name    = "www.${data.aws_route53_zone.main.name}"
+  type    = "CNAME"
+  ttl     = "300"
   records = [aws_lb.main.dns_name]
 }
 
 resource "aws_acm_certificate" "main" {
-  domain_name = "www.${data.aws_route53_zone.main.name}"
+  domain_name       = "www.${data.aws_route53_zone.main.name}"
   validation_method = "DNS"
 
   tags = {
