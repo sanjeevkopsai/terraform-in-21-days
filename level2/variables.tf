@@ -1,3 +1,1 @@
-variable "env_code" {
-    default = "sfo"
-}
+variable "cluster_name" {}
