@@ -23,6 +23,7 @@ module "private_sg" {
 
   name = "${var.env_code}-private"
   description = "Allow port 80 and 3306 TCP inbound to ec2 ASG instances within VPC"
+  vpc_id = data.terraform_remote_state.level1.outputs.vpc_id 
 
   computed_ingress_with_source_security_group_id = [
     {
